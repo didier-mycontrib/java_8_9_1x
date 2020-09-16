@@ -1,0 +1,38 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>tp</groupId>
+  <artifactId>new_features</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <description>nouveautes de java 9 10 et 11 (et aussi 12, 13, 14)</description>
+  <properties>
+    <!--  <java.version>1.11</java.version> <j.version>1.11</j.version> -->
+     <java.version>1.14</java.version> <j.version>1.14</j.version>
+     <maven.compiler.target>${java.version}</maven.compiler.target>
+     <maven.compiler.source>${java.version}</maven.compiler.source>
+  </properties>
+  
+  <modules>
+  <module>j9-10-11</module>
+  <module>j12-13-14</module>
+  <module>j8</module>
+  </modules>
+  
+  <build>
+    <pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <release>${j.version}</release>
+                    <source>${j.version}</source>
+                    <target>${j.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </pluginManagement>
+</build>
+  
+</project>

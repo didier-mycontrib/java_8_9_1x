@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+     <groupId>tp.mod</groupId>
+     <artifactId>mod_mvn</artifactId>
+     <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>mod_xx</artifactId>
+  <description>mod_xx java>=9 utilise mod_zz et sera utilisé par mod_yy</description>
+ 
+  <dependencies>
+  		<dependency>
+  		 	<groupId>tp.mod</groupId>
+  			<artifactId>mod_zz</artifactId>
+  			<version>0.0.1-SNAPSHOT</version>
+  		</dependency>
+  		
+  		<dependency>
+  		 	<groupId>tp.mod</groupId>
+  			<artifactId>mod_aa_itf</artifactId>
+  			<version>0.0.1-SNAPSHOT</version>
+  		</dependency>
+  </dependencies>
+
+ <build>  
+    <finalName>${project.artifactId}</finalName>
+</build>
+
+</project>

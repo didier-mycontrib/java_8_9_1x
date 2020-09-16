@@ -1,0 +1,3 @@
+module mod.auto.s {
+	exports tp.mod.mod_auto_s; 
+}
