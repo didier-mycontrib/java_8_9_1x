@@ -1,22 +1,30 @@
-package tp.concurent.basic;
+package tp.concurent.completable;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import tp.concurent.task.LongTask;
 import tp.data.Product;
+import tp.util.MyFileConsumer;
 import tp.util.ProductUtil;
 
 public class ProductAsyncWithCompletableFuture {
 	
-	public static Double extractInitValue(){
-		LongTask.simulateLongTask("long computing - p1" ,  2000); 
-        /*throw new RuntimeException("exceptionXY");*/ return 2.0; 
-	}
 	
 	public static String fetchFavoriteCategory(){
-		LongTask.simulateLongTask("fetch favorite category , ... async waiting in background ..." ,  1000); 
-        /*throw new RuntimeException("exceptionXY");*/ return "computer"; 
+		String category = null;
+		MyFileConsumer myFileConsumer = new MyFileConsumer();
+		int nbTry=0;
+		while(category==null && nbTry < 20) {
+		   nbTry++;
+		   LongTask.simulateLongTask("waiting 2000ms before (re-)trying fetch category file in files/input" ,  2000);
+		   category = myFileConsumer.extractNewFileContentIfExists().orElse(null);
+		}
+		if(category==null) {
+			category="other"; //default value
+		}
+		System.out.println("category="+category);
+        return category; 
 	}
 	
 	public static List<Product> fetchProductList(){
@@ -45,6 +53,14 @@ public class ProductAsyncWithCompletableFuture {
 		.thenApply((pList)-> ProductUtil.extractSubListByPredicate(pList, p -> p.getPrice() <= 100) )
         .thenAccept(ProductUtil::displayProductList );*/
 		
+
+		CompletableFuture.supplyAsync(ProductAsyncWithCompletableFuture::fetchFavoriteCategory )
+		.thenApply(category -> ProductUtil.initSampleProductListByCategory(category) )
+		//.thenApply(pList -> ProductUtil.extractSubListByPredicate(pList, p -> p.getPrice() <= 600))
+        .thenAccept(ProductUtil::displayProductList );
+		
+		
+		/*
 		CompletableFuture<Double> cfFetchingMaxAcceptablePrice =
 				CompletableFuture.supplyAsync(ProductAsyncWithCompletableFuture::fetchAcceptableMaxPrice );
 		
@@ -53,11 +69,11 @@ public class ProductAsyncWithCompletableFuture {
 		.thenCombine(cfFetchingMaxAcceptablePrice, 
 				(pList,maxPrice) -> ProductUtil.extractSubListByPredicate(pList, p -> p.getPrice() <= maxPrice))
         .thenAccept(ProductUtil::displayProductList );
-		
+		*/
 		
 		System.out.println("suite main / interpreted by " + Thread.currentThread().getName());
 		
-		LongTask.simulateLongTask("pause pour eviter arrêt complet du programme avant la fin des taches de fond" ,  8000);
+		LongTask.simulateLongTask("pause pour eviter arrêt complet du programme avant la fin des taches de fond" ,  2000 * 22);
 		System.out.println("fin main / interpreted by " + Thread.currentThread().getName());
 	}
 }

@@ -8,12 +8,12 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+/*
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import tp.data.Product;
-
+*/
 public class MyFileConsumer {
 	
 	//cette classe utilitaire va surveiller l'existence d'un nouveau fichier
@@ -51,7 +51,7 @@ public class MyFileConsumer {
 		MyFileConsumer myFileConsumer = new MyFileConsumer();
 		String fileContent = myFileConsumer.extractNewFileContentIfExists().orElse(null);
 		System.out.println("fileContent="+fileContent);
-		
+		/*
 		ObjectMapper jacksonObjectMapper = new ObjectMapper();
 		//jacksonObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		if(fileContent!=null) {
@@ -62,6 +62,7 @@ public class MyFileConsumer {
 				e.printStackTrace();
 			} 
 		}
+		*/
 	}
 
 }
