@@ -1,4 +1,4 @@
-package tp;
+package tp.j9_10_11;
 
 public class MyItfImpl implements MyInterface {
 

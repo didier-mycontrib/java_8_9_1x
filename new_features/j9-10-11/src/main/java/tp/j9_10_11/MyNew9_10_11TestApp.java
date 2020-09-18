@@ -1,4 +1,4 @@
-package tp;
+package tp.j9_10_11;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.IntStream;
 
-public class MyApp {
+public class MyNew9_10_11TestApp {
 	
 	public static void test_steam_improvement_since_java9() {
 		IntStream.iterate(1, i -> i < 5, i -> i + 1)
@@ -67,7 +67,7 @@ public class MyApp {
 			System.out.println("reponse status:" + resp.statusCode()); //200 for ok
 			System.out.println("reponse uri:" + resp.uri().toString()); //http://www.google.com
 			System.out.println("reponse type:" + resp.headers().map().get("Content-Type"));//[text/html; charset=ISO-8859-1]
-			System.out.println("reponse text:" + resp.body());//texte html  habituellement affiché par navigateur
+			System.out.println("reponse text:" + resp.body());//texte html  habituellement affichï¿½ par navigateur
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
@@ -77,7 +77,7 @@ public class MyApp {
 		//En mode asynchrone , sendAsync retournant un CompletableFuture : 
 		client.sendAsync(req, BodyHandlers.ofString())
 		      .thenAccept(resp -> {
-		    		System.out.println("recuperation réponse asynchrone / interpreted by " + Thread.currentThread().getName());
+		    		System.out.println("recuperation rï¿½ponse asynchrone / interpreted by " + Thread.currentThread().getName());
 		    	    System.out.println("reponse status:" + resp.statusCode()); 
 					System.out.println("reponse uri:" + resp.uri().toString()); 
 					System.out.println("reponse type:" + resp.headers().map().get("Content-Type"));
@@ -85,7 +85,7 @@ public class MyApp {
 		      		});
         System.out.println("suite synchrone interpreted by " + Thread.currentThread().getName());
 		try {
-			Thread.sleep(2000);//pause ici pour eviter arrêt complet du programme 
+			Thread.sleep(2000);//pause ici pour eviter arrï¿½t complet du programme 
 			                    // avant la fin des taches de fond asynchrones
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -121,7 +121,7 @@ public class MyApp {
 		
         System.out.println("suite synchrone interpreted by " + Thread.currentThread().getName());
 		try {
-			Thread.sleep(2000);//pause ici pour eviter arrêt complet du programme 
+			Thread.sleep(2000);//pause ici pour eviter arrï¿½t complet du programme 
 			                    // avant la fin des taches de fond asynchrones
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -131,11 +131,11 @@ public class MyApp {
 	}
 
 	public static void main(String[] args) {
-		//test_collection_factory_method_of_since_java9();
-		//test_steam_improvement_since_java9();
-		//test_private_interface_method_since_java9();
-		//test_var_since_java10();
-		//test_new_http2_client_since_java9_standard_since_java11();
+		test_collection_factory_method_of_since_java9();
+		test_steam_improvement_since_java9();
+		test_private_interface_method_since_java9();
+		test_var_since_java10();
+		test_new_http2_client_since_java9_standard_since_java11();
 		test_new_httpClient_withSubscriber();
 
 	}

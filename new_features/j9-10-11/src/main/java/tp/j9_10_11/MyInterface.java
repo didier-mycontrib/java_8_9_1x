@@ -1,4 +1,4 @@
-package tp;
+package tp.j9_10_11;
 
 public interface MyInterface {
 	public int f1(int a); //normal method
