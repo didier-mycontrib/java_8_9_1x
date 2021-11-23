@@ -45,13 +45,13 @@ public class AppWithOptional {
 		
 		if(p.getOptionalAddress().isPresent()) {
 			//NB: .get() renvoie une exception si empty(inside null) qui ne peut pas se produire ici
-			//car appel englob� par if(....isPresent())
+			//car appel englobe par if(....isPresent())
 			System.out.println("with uppercase address="+ p.getOptionalAddress().get().toString().toUpperCase());
 		}
 		//Variante:
 		try {
 			System.out.println("with uppercase address="+ p.getOptionalAddress().get().toString().toUpperCase());
-		}catch(java.util.NoSuchElementException ex) { //NoSuchElementException h�rite de RuntimeException
+		}catch(java.util.NoSuchElementException ex) { //NoSuchElementException herite de RuntimeException
 			System.out.println("with no or unknown address. normal exception="+ex.getMessage());
 		}
 		
@@ -72,25 +72,25 @@ public class AppWithOptional {
 		System.out.println("with uppercase email="+ p.getOptionalEmail().orElse("iconnue").toUpperCase());
 		String strAdr = p.getOptionalAddress()
 		           .map(a -> a.toString().toUpperCase()) //map() effectue une transformation sur la valeur interne de l'optional si non nulle
-		                                                 //la valeur transform�e par la lambda interne � .map() est automatiquement
-		                                                 //r�-encapsul�e dans un Optional<...> pour pouvoir encha�ner l'instruction d'apr�s
+		                                                 //la valeur transformee par la lambda interne à .map() est automatiquement
+		                                                 //re-encapsulee dans un Optional<...> pour pouvoir enchainer l'instruction d'apres
 		                                                 //souvent .orElse() quelquefois .get() avec try/catch ou autre
 		           .orElse("INCONNUE");
 		//� terminer ....
         System.out.println("with uppercase address = "+strAdr);
         String bestFriendFullName = p.getOptionalBestFriend()
-		           .map((Person bf) -> bf.getFullName())  //retourne une String automatiquement encapsul�e dans Optional<...> pour encha�ner.
-		           .orElse("inconnu (non renseign�)");
+		           .map((Person bf) -> bf.getFullName())  //retourne une String automatiquement encapsulee dans Optional<...> pour enchainer.
+		           .orElse("inconnu (non renseigne)");
         System.out.println("with best fiend full name="+bestFriendFullName );
 		
         
         String bestFriendAddress = p.getOptionalBestFriend()
-		           .flatMap(bf -> bf.getOptionalAddress()) //le r�sultat de la transformation (lambda interne � flatMap())
-		                                                   //est ici d�j� de type Optional<Address>
-		                                                   //.map(...) � la place de .flatMap(...) retournerait ici un objet de type
+		           .flatMap(bf -> bf.getOptionalAddress()) //le resultat de la transformation (lambda interne a flatMap())
+		                                                   //est ici deja de type Optional<Address>
+		                                                   //.map(...) a la place de .flatMap(...) retournerait ici un objet de type
 		                                                   //Optional<Optional<Address>> 
-		                                                   //d'o� ici l'utilisation n�cessaire de flatMap(...) qui ne r�-encapsule
-		           										   //pas inutilement dans un Optional<...> unne chose d�ja Optional<...>
+		                                                   //d'ou ici l'utilisation necessaire de flatMap(...) qui ne re-encapsule
+		           										   //pas inutilement dans un Optional<...> unne chose deja Optional<...>
 		           .map(bfAddr -> bfAddr.toString().toUpperCase())
 		           .orElse("INCONNUE");
         System.out.println("with uppercase address of best friend="+ bestFriendAddress);

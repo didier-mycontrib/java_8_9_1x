@@ -16,11 +16,11 @@ public class AppExemplesStreams {
 
 	public static void main(String[] args) {
 		
-		String s = IntStream.iterate(1, i -> i * 2) //génération d'une séquence à priori infinie 1 , 2 , 4, ...
-				.limit (10) //limitation à 10 itérations
-				.mapToObj(String :: valueOf) //transformation de chaque élément i en String
+		String s = IntStream.iterate(1, i -> i * 2) //generation d'une sequence a priori infinie 1 , 2 , 4, ...
+				.limit (10) //limitation a 10 iterations
+				.mapToObj(String :: valueOf) //transformation de chaque element  en String
 				.collect(Collectors.joining(" ; ")); //collector rassemblant tout en une seule grande chaine 
-		                                             //via des concaténations (en boucle) avec le séparateur/jointeur spécifié
+		                                             //via des concatenations (en boucle) avec le separateur/jointeur specifie
 		System.out.println(s);
 		//affiche 1 ; 2 ; 4 ; 8 ; 16 ; 32 ; 64 ; 128 ; 256 ; 512
 
@@ -37,7 +37,7 @@ public class AppExemplesStreams {
 		
 		double prixMaxi =listProd.stream().map(p -> p.getPrice()).reduce(Double::max).orElse(0.0);
 		//double prixMaxi =listProd.parallelStream().map(p -> p.getPrice()).reduce(Double::max).orElse(0.0);
-		//pourrait être intéressant avec collection de très grande taille et processeur multi-coeurs
+		//pourrait etre interessant avec collection de tres grande taille et processeur multi-coeurs
 		System.out.println("prixMaxi="+prixMaxi);
 		
 		List<String> liste1 = Arrays.asList("rouge", "vert" , "bleu");

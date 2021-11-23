@@ -32,7 +32,7 @@ public class WithLocalDate {
 	   System.out.println("premiers pas sur la lune : "+localDatePremiersPasSurLune);
         
 		
-		// Manipulations plus élaborées de Date (avec nouveautees java 8):
+		// Manipulations plus elaborees de Date (avec nouveautees java 8):
 	   LocalTime nowTime = LocalTime.now();	 System.out.println("now is " + nowTime);
 	}
 

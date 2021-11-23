@@ -13,7 +13,7 @@ public class AppGestionProduitsAvecStream {
 		List<Product> listProd = ProductUtil.initSampleProductList();
 		System.out.println("listProd="+listProd);
         
-        //on va enchainer � partir de listProd.stream()
+        //on va enchainer a partir de listProd.stream()
         //.sorted ( ... ) avec une lambda pour trier par ordre de prix croissant
         //.filter(...) avec une lambda qui filtre les produits prix >=100
         //.map (...)  avec une lambda qui va transformer les produits , label en majuscules

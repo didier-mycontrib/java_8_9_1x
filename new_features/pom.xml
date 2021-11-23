@@ -6,10 +6,16 @@
   <packaging>pom</packaging>
   <description>nouveautes de java 9 10 et 11 (et aussi 12, 13, 14)</description>
   <properties>
-    <!--  <java.version>1.11</java.version> <j.version>1.11</j.version> -->
-     <java.version>1.14</java.version> <j.version>1.14</j.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- version du jdk : 1.6 , 1.7 , 1.8 
+         puis 9 , 10 , 11 , ..., 17, ... -->
+    <!--  <java.version>11</java.version> -->
+     <java.version>14</java.version> 
+     <maven.compiler.release>${java.version}</maven.compiler.release><!-- depuis java 9 --> 
+     <!--   
      <maven.compiler.target>${java.version}</maven.compiler.target>
      <maven.compiler.source>${java.version}</maven.compiler.source>
+     -->
   </properties>
   
   <modules>
@@ -26,9 +32,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <release>${j.version}</release>
-                    <source>${j.version}</source>
-                    <target>${j.version}</target>
+                    <release>${java.version}</release>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
         </plugins>
