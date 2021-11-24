@@ -6,11 +6,14 @@
   
   
   <properties>
-    <java.version>1.11</java.version>
+  <java.version>11</java.version>
+   <!--  
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
-  </properties>
+    --> 
+    <maven.compiler.release>${java.version}</maven.compiler.release><!-- depuis java 9 --> 
   
+  </properties>
   
   <dependencies>
 	
@@ -18,12 +21,12 @@
   </dependencies>
   
   <build>
-      <finalName>${artifactId}</finalName>
+      <finalName>${project.artifactId}</finalName>
        <plugins>
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.1</version><!-- recent version is required for java 1.11 or more --> 
+            <version>3.8.1</version><!-- recent version is required for java 11 or more --> 
         </plugin>
     </plugins>
   </build>

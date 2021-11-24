@@ -6,9 +6,12 @@
   <packaging>pom</packaging>
   
   <properties>
-     <maven.compiler.target>1.11</maven.compiler.target>
-     <maven.compiler.source>1.11</maven.compiler.source>
-     <java.version>1.11</java.version>
+     <java.version>11</java.version>
+   <!--  
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    --> 
+    <maven.compiler.release>${java.version}</maven.compiler.release><!-- depuis java 9 --> 
   </properties>
   
    <modules>
@@ -24,11 +27,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.8.1</version>
                 <configuration>
-                    <release>11</release>
-                    <source>11</source>
-                    <target>11</target>
+                    <release>${java.version}</release>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
         </plugins>

@@ -22,6 +22,8 @@ public class MyFileConsumer {
 	//et supprimer ce fichier
 	//ou bien déplacer et renommer le fichier traité dans ./files/done/fileName_timestamp
 	
+	//NB: après un clone via git, il faudra souvent recréer le sous répertoire input dans .files (vide au départ)
+	
 	private String mainDirectoryPath="./files";
 	private String inputSubDirectory="input";
 	//private String doneSubDirectory="done";
