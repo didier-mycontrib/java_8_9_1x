@@ -1,11 +1,15 @@
 package tp.date;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Period;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Locale;
 
 public class WithLocalDate {
@@ -34,6 +38,28 @@ public class WithLocalDate {
 		
 		// Manipulations plus elaborees de Date (avec nouveautees java 8):
 	   LocalTime nowTime = LocalTime.now();	 System.out.println("now is " + nowTime);
+	   LocalTime _45mnPlusTard = nowTime.plus(45,ChronoUnit.MINUTES);
+	   System.out.println("_45mnPlusTard " + _45mnPlusTard);
+	   
+	   LocalDate nowDate2 = LocalDate.now();	 System.out.println("today is " + nowDate2);
+	   LocalDate _dans7semaines = nowDate2.plus(7,ChronoUnit.WEEKS);
+	   System.out.println("_dans7semaines " + _dans7semaines);
+	   
+	   LocalDateTime locDateTime = nowDate2.atTime(nowTime);
+	   System.out.println("today , now is " + locDateTime);
+	   
+	   LocalDateTime _dans7semainesEt7heures = locDateTime.plus(7,ChronoUnit.WEEKS)
+			                                     .plus(7,ChronoUnit.HOURS);
+	   System.out.println("_dans7semainesEt7heures="+ _dans7semainesEt7heures);
+	   
+	   LocalDateTime _12fevrier2022_14h = (LocalDate.of(2022,02,12)).atTime(LocalTime.of(14, 0));
+	   LocalDateTime _13fevrier2022_15h30 = (LocalDate.of(2022,02,13)).atTime(LocalTime.of(15, 30));
+	   Duration diffTemps = Duration.between(_12fevrier2022_14h, _13fevrier2022_15h30);
+	   System.out.println("diffTemps="+diffTemps);//PT25H30M //P1D (periode Temps de 1 25h et 30mn)
+	   Period periodeDate = Period.between(_12fevrier2022_14h.toLocalDate(), _13fevrier2022_15h30.toLocalDate()) ; 
+	   System.out.println("periodeDate:" + periodeDate);//P1D (periode de 1 Day)
+	  
+	
 	}
 
 }

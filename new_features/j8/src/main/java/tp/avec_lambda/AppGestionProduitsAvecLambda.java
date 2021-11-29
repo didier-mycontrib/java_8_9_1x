@@ -1,9 +1,7 @@
 package tp.avec_lambda;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,21 +17,35 @@ public class AppGestionProduitsAvecLambda {
 		IsMapped.printEither(age>=18, "majeur" , "mineur");
 	}
 	
+
+	
+	void textBizzare() {
+		List<Product> listProd = ProductUtil.initSampleProductList();
+		List<Product> subListCheapProductsV2Bis = 
+				ProductUtil.extractSubListByPredicate(listProd,	(new ProductUtil())::isCheapProductNonStatic); 
+				// ProductUtil::isCheapProductNonStatic possible mais pas evident/intuitif
+		System.out.println("subListCheapProductsV2Bis="+ subListCheapProductsV2Bis);
+	}
 	
 
 	public static void main(String[] args) {
+		
+		
+		
 		List<Product> listProd = ProductUtil.initSampleProductList();
 		System.out.println("listProd="+listProd);
 		
 		List<Product> subListCheapProducts = 
+				//ProductUtil.extractSubListByPredicate(listProd,	(Product p) -> { return p.getPrice() <= 100 ; });
 				//ProductUtil.extractSubListByPredicate(listProd,	(p) -> { return p.getPrice() <= 100 ; });
-		        //ProductUtil.extractSubListByPredicate(listProd,	(p) -> p.getPrice() <= 100);
-				ProductUtil.extractSubListByPredicate(listProd,	p -> p.getPrice() <= 100);
+		        ProductUtil.extractSubListByPredicate(listProd,	(p) -> p.getPrice() <= 100);
+				//ProductUtil.extractSubListByPredicate(listProd,	p -> p.getPrice() <= 100);
 		System.out.println("subListCheapProducts="+subListCheapProducts);
 		List<Product> subListCheapProductsV2 = 
 				ProductUtil.extractSubListByPredicate(listProd,	ProductUtil::isCheapProduct);
+		
 		System.out.println("subListCheapProductsV2="+subListCheapProductsV2);
-				
+			
 		List<Product> subListComputerProducts = 
 				ProductUtil.extractSubListByPredicate(listProd,p -> p.getLabel().contains("computer"));
 		System.out.println("subListComputerProducts="+subListComputerProducts);
@@ -45,7 +57,7 @@ public class AppGestionProduitsAvecLambda {
 		System.out.println("listProd par prix croissant="+listProd);
 		
 		Collections.sort(listProd, (p1,p2) -> p1.getLabel().compareTo(p2.getLabel()) );
-		System.out.println("listProd trié par label="+listProd);
+		System.out.println("listProd trie par label="+listProd);
 		
 		testDefaultAndStaticMethodOfInterface();
 		
@@ -53,6 +65,7 @@ public class AppGestionProduitsAvecLambda {
 		Map<String,List<Product>> mapProducts = ProductUtil.buildMapFromAssociatedValues(categories , listProd,
 				(keyVal,p) -> p.getLabel().toLowerCase().startsWith(keyVal.toLowerCase()) );
 		System.out.println("mapProducts (by categories)="+mapProducts);
+		
 	}
 
 }

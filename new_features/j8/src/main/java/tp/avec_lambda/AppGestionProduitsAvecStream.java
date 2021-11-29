@@ -24,10 +24,10 @@ public class AppGestionProduitsAvecStream {
 		
         List<Product> listeProduitsTriesFiltresEtTransformes =
         		listProd.stream()
+        		 .filter((p)->p.getPrice()>=100)
                  .sorted((p1,p2)->Double.compare(p1.getPrice(), p2.getPrice()))
-                 .filter((p)->p.getPrice()>=100)
-                 //.map((p)-> new Product(p.getId(), p.getLabel().toUpperCase(), p.getPrice() , p.getFeatures()))
-                 .map((p) -> { p.setLabel(p.getLabel().toUpperCase()); return p; })
+                 .map((p)-> new Product(p.getId(), p.getLabel().toUpperCase(), p.getPrice() , p.getFeatures()))
+                 //.map((p) -> { p.setLabel(p.getLabel().toUpperCase()); return p; })
                  .collect(Collectors.toList());
         
         //exemple de lambda pour .map(...)
@@ -40,8 +40,8 @@ public class AppGestionProduitsAvecStream {
        //Version avec affichage direct en fin d'enchainement:
         System.out.println("idem via .forEach():");
         listProd.stream()
-                 .sorted((p1,p2)->Double.compare(p1.getPrice(), p2.getPrice()))
                  .filter((p)->p.getPrice()>=100)
+                 .sorted((p1,p2)->Double.compare(p1.getPrice(), p2.getPrice()))
                  .map((p) -> { p.setLabel(p.getLabel().toUpperCase()); return p; })
                  .forEach( (p) -> System.out.println(p) );
         
@@ -50,5 +50,12 @@ public class AppGestionProduitsAvecStream {
                  .map((p) -> p.getPrice())
                  .reduce(0.0 , (x,y) -> x+y);
         System.out.println("moyenne des prix de tous les produits:"+sommePrix/listProd.size());
+        
+        Double moyennePrixV2 = listProd.stream()
+                .map(p -> p.getPrice())
+                .mapToDouble(val -> val).average().orElse(0.0);
+                //NB: .mapToDouble() preparer l'opération terminale .average()
+                //de type appel de fonction sur un paquet de Double
+       System.out.println("moyenne des prix de tous les produits (v2):"+moyennePrixV2);
 	}
 }

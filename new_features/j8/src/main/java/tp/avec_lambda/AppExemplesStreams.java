@@ -34,11 +34,17 @@ public class AppExemplesStreams {
 		if(auMoinsUnProduitExistantQuiCommenceParPrinter)
 			System.out.println("au moins un des produits existants commence par printer");
 		
-		
+		listProd = ProductUtil.initSampleProductListV2();
 		double prixMaxi =listProd.stream().map(p -> p.getPrice()).reduce(Double::max).orElse(0.0);
 		//double prixMaxi =listProd.parallelStream().map(p -> p.getPrice()).reduce(Double::max).orElse(0.0);
 		//pourrait etre interessant avec collection de tres grande taille et processeur multi-coeurs
 		System.out.println("prixMaxi="+prixMaxi);
+		
+		
+		List<Integer> listOfNumbers = Arrays.asList(1, 2, 3, 4 , 5 ,6, 7, 8, 9, 10 , 11,12,13);
+		listOfNumbers.parallelStream().forEach(number ->
+		    System.out.println(number + " " + Thread.currentThread().getName())
+		);
 		
 		List<String> liste1 = Arrays.asList("rouge", "vert" , "bleu");
 		List<String> liste2 = Arrays.asList("jaune", "orange" , "bleu");

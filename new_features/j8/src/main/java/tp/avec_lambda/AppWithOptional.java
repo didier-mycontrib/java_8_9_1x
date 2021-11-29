@@ -41,7 +41,7 @@ public class AppWithOptional {
 	
     public static void displayWithOptional(Person p) {
     	System.out.println(p);
-		System.out.println("with uppercase email="+ p.getOptionalEmail().orElse("iconnue").toUpperCase());//avec .orElse() pas d'exception
+		System.out.println("with uppercase email="+ p.getOptionalEmail().orElse("inconnue").toUpperCase());//avec .orElse() pas d'exception
 		
 		if(p.getOptionalAddress().isPresent()) {
 			//NB: .get() renvoie une exception si empty(inside null) qui ne peut pas se produire ici
