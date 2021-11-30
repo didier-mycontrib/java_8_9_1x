@@ -10,10 +10,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 public class TestRecordApp {
 
 	public static void main(String[] args) {
-		testRecord();
+		//testRecord();
 		testUsefulRecordV1();
 		testUsefulRecordV2();
-		testUsefulRecordV3();
+		//testUsefulRecordV3();
 	}
 	
 	public static void testRecord() {
@@ -70,12 +70,21 @@ public class TestRecordApp {
 	public static void testUsefulRecordV1() {
 		AddressV1 a1 = new AddressV1(12,"rueElle","75000" ,"Paris");
 		System.out.println("a1="+a1.toString());
-		System.out.println("a1="+a1.toJsonString());
+		String a1AsJsonString =a1.toJsonString();
+		System.out.println("a1="+a1AsJsonString);
+		//et dans le sens inverse jsonString --> record a2:
+		try {
+			ObjectMapper jacksonObjectMapper = new ObjectMapper();
+			AddressV1 a2 = jacksonObjectMapper.readValue(a1AsJsonString,AddressV1.class);
+			System.out.println("via jackson, a2 (clone de a1)="+a2);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	//V2 avec compatibilité avec api jackson-databind (souvent utilisé par JEE , Spring, ...)
 	//pratique pour définition de DTO/VO (à la volée)
-	@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+	//@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)//plus nécessaire depuis version 2.12
 	public record AddressV2(Integer number,String street,String zipCode,String town) {
 	};
 	

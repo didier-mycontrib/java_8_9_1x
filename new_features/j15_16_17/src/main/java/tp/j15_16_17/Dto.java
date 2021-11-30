@@ -1,14 +1,30 @@
 package tp.j15_16_17;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 public class Dto {
 	
-	@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+	private static ObjectMapper jacksonObjectMapper = new ObjectMapper();
+	
+	public record CatFact(String fact,int length) {
+		public static CatFact fromJSonString(String catFactAsJsonString) {
+			CatFact catFact=null;
+			try {
+				catFact = jacksonObjectMapper.readValue(catFactAsJsonString,CatFact.class);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+			return catFact;
+		}
+	};
+	
+	//@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY) //plus necessaire version 2.12
 	public record Address(Integer number,String street,String zipCode,String town) {
 	};
 	
-	@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+	//@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 	public record Person(Integer id,String firstName,String lastName,Address address) {
 		public Person(Integer id,String firstName,String lastName) {
 			this(id,firstName,lastName,null);
