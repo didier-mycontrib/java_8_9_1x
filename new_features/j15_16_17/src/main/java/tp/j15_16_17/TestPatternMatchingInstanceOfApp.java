@@ -1,6 +1,6 @@
 package tp.j15_16_17;
 
-public class TestPatternMatchingIstanceOfApp {
+public class TestPatternMatchingInstanceOfApp {
 
 	public static void main(String[] args) {
 		String s = "abc";

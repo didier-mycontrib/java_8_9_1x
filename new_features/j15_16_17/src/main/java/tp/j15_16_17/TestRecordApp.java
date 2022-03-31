@@ -13,7 +13,7 @@ public class TestRecordApp {
 		//testRecord();
 		testUsefulRecordV1();
 		testUsefulRecordV2();
-		//testUsefulRecordV3();
+		testUsefulRecordV3();
 	}
 	
 	public static void testRecord() {
@@ -109,6 +109,9 @@ public class TestRecordApp {
 			ObjectMapper jacksonObjectMapper = new ObjectMapper();
 			String p1JsonString = jacksonObjectMapper.writeValueAsString(p1Dto);
 			System.out.println("via jackson, p1JsonString="+p1JsonString);
+			//-----
+			Dto.Person p1BisDto =jacksonObjectMapper.readValue(p1JsonString,Dto.Person.class);
+			System.out.println("via jackson, p1BisDto=clone de p1Dto="+p1BisDto.toString());
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}

@@ -11,9 +11,10 @@ public class JsonProcessor extends SubmissionPublisher<Object> implements Subscr
     
     private static ObjectMapper jacksonObjectMapper = new ObjectMapper();
     
-    private Class extractClass;
+    @SuppressWarnings("rawtypes")
+	private Class extractClass;
     
-    public JsonProcessor(Class extractClass){
+    public JsonProcessor(@SuppressWarnings("rawtypes") Class extractClass){
     	super();
     	this.extractClass = extractClass ; //ex: Product.class
     }
@@ -27,6 +28,7 @@ public class JsonProcessor extends SubmissionPublisher<Object> implements Subscr
     @Override
     public void onNext(Object item) {
     	try {
+			@SuppressWarnings("unchecked")
 			Object p = jacksonObjectMapper.readValue(item.toString(), extractClass);
 			//System.out.println("p from json string="+p);
 			submit(p); //envoyer le resultat de la conversion "json vers java" aux abonnés

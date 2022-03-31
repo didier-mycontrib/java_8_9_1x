@@ -35,7 +35,7 @@ public class SyntheseTestApp {
 		//PHASE2: via switch/case en tant qu'expression retournant valeur
 		//et pour chaque case :
 		//      fonctionalité de la PHASE1 ET
-		//      via yield , retourner une fonction de transformation adéquate
+		//      via yield , retourner une fonction de transformation adéquate (ex: FigureUtil::figureToCircle)
 		Function<Figure,Object> transformationFunction =
 				switch(fig.getType()) {
 				    case Figure.TYPE_LINE -> { System.out.println("LIGNE"); yield FigureUtil::figureToLine; }
@@ -51,6 +51,16 @@ public class SyntheseTestApp {
 	}
 	
 	private void autresExperimentationsSelonInspirationDuMoment() {
-	   //....
+	   String ch1= "   abc   ";
+	   System.out.println("***"+ch1+"***");
+	   String ch2=ch1.strip();
+	   System.out.println("***"+ch2+"***");
+	   
+	   String ch3 = "===".repeat(4);
+	   System.out.println("ch3: "+ch3);
+	   String ch4="ligne1\nl2\nligne3\nl4";
+	   ch4.lines()
+	   .filter(l->l.startsWith("ligne"))
+	   .forEach(l->System.out.println("l="+l));
 	}
 }

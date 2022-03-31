@@ -1,5 +1,8 @@
 package tp.j9_10_11;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -7,12 +10,13 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.IntStream;
 
 public class MyNew9_10_11TestApp {
 	
-	public static void test_steam_improvement_since_java9() {
+	public static void test_stream_improvement_since_java9() {
 		IntStream.iterate(1, i -> i < 5, i -> i + 1)
 		         .forEach(System.out::println);
 	}
@@ -129,15 +133,115 @@ public class MyNew9_10_11TestApp {
 		System.out.println("fin synchrone / interpreted by " + Thread.currentThread().getName());
 		
 	}
+   
+   public static void oldTryCatchFinallyStyle(){
+	   Scanner scanner = null;
+	   try {
+	       scanner = new Scanner(new File("files/test.txt"));
+	       while (scanner.hasNext()) {
+	           System.out.println(scanner.nextLine());
+	       }
+	   } catch (FileNotFoundException e) {
+	       e.printStackTrace();
+	   } finally {
+	       if (scanner != null) {
+	           scanner.close();
+	       }
+	   }
+   }
+   
+   public static void tryWithResourceStyleSinceJava7(){
+	   try (Scanner scanner = new Scanner(new File("files/test.txt"))) {
+		    while (scanner.hasNext()) {
+		        System.out.println(scanner.nextLine());
+		    }
+		} catch (FileNotFoundException fnfe) {
+		    fnfe.printStackTrace();
+		}
+	   //Automatic close (even without finally) because of 
+	   //Scanner implementing java.lang.AutoCloseable
+	   
+	   //- possible d'implémenter soit meme AutoCloseable.close() sur nouvelle classe
+	   //- try(res1=...;res2=...) est possible (avec ressources multiples)
+   }
+   
+   public static void tryWithResourceStyleSinceJava9() throws IOException{
+	   final Scanner scanner = new Scanner(new File("files/test.txt"));
+	   //scanner can now be declared as final before try(...){ } since java9
+	   try (scanner) {
+		    while (scanner.hasNext()) {
+		        System.out.println(scanner.nextLine());
+		    }
+		} 
+	   //Automatic close (even without finally) because of 
+	   //Scanner implementing java.lang.AutoCloseable of java7
+   }
+   
+   public static void test_try_with_resources_improvement_since_java9(){
+	   //oldTryCatchFinallyStyle();
+	   //tryWithResourceStyleSinceJava7();
+	   try {
+		tryWithResourceStyleSinceJava9();
+	   } catch (IOException e) {
+		e.printStackTrace();
+	   }
+   }
 
 	public static void main(String[] args) {
-		test_collection_factory_method_of_since_java9();
-		test_steam_improvement_since_java9();
-		test_private_interface_method_since_java9();
+		
+		//test_collection_factory_method_of_since_java9();
+		//test_stream_improvement_since_java9();
+		//test_private_interface_method_since_java9();
 		test_var_since_java10();
-		test_new_http2_client_since_java9_standard_since_java11();
-		test_new_httpClient_withSubscriber();
-
+		//test_new_http2_client_since_java9_standard_since_java11();
+		//test_new_httpClient_withSubscriber();
+		//test_try_with_resources_improvement_since_java9();
+		//testImprovedSafeVarargs();
+	}
+	
+	//bad V1 with warnings (MyNew9_10_11TestApp.java uses unchecked or unsafe operations ,
+	//  Type safety: Potential heap pollution via varargs parameter elements)
+	public static <T> T[] unsafeAsArray(T... elements) {
+	    return elements; // unsafe! don't ever return a parameterized varargs array ,just returning Object[]
+	}
+	
+	
+	//V2 (without warning because of @SafeVarargs on a function with <T> and ...)
+	//NB: @SafeVarargs exists since java 7 
+	//since java 9, @SafeVarargs can be used on private methods
+	@SafeVarargs
+	private static <T> Object[] safeAsArray(T... elements) {		
+	    return elements; // safe as just returning Object[]
+	}
+    
+	public static <T> T[] badArrayOfThree(T elt) {
+	    T[] arrayOf3Elts = unsafeAsArray(elt, elt, elt); // broken! This will be an Object[] no matter what T is
+	    return arrayOf3Elts;
+	}
+	
+	public static <T> Object[] goodArrayOfThree(T elt) {
+	    Object[] arrayOf3Elts = safeAsArray(elt, elt, elt); // explicitly view as Object[] no matter what T is
+	    return arrayOf3Elts;
 	}
 
+	public static void threeBadAndGoodXxx() {
+	  
+	   try {
+		String[] threeXxxAsStringArray = badArrayOfThree("xxx"); //cast exception
+		   System.out.println("threeXxxAsStringArray:"+threeXxxAsStringArray);
+	   } catch (Exception e) {
+		    System.err.println(e.getMessage());	//cast exception	
+	   }
+	   
+	   Object[] threeXxxAsObjectArray = goodArrayOfThree("xxx"); 
+	   System.out.println("threeXxxAsObjectArray:");
+	   for(Object obj : threeXxxAsObjectArray)
+		   System.out.println("\t"+obj); //ok , affiche 3 fois xxx
+	}
+
+	
+	public static void testImprovedSafeVarargs() {
+		threeBadAndGoodXxx();
+	}
+	
 }

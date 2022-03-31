@@ -1,8 +1,10 @@
 package tp.avec_lambda;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import tp.data.Address;
 import tp.data.Person;
 import tp.util.PersonUtil;
 
@@ -143,6 +145,17 @@ public class AppWithOptional {
 				               () -> System.out.println("value of opS1 is empty")); //affiche opS1=s1
 		opS2.ifPresentOrElse( (value) -> System.out.println("opS2="+value),
 	               () -> System.out.println("value of opS2 is empty")); //affiche value of opS2 is empty
+	
+		List<Optional<String>> listOfOptionals = new ArrayList<>();
+		listOfOptionals.add(Optional.of("janvier"));
+		listOfOptionals.add(Optional.empty());
+		listOfOptionals.add(Optional.of("mars"));
+		listOfOptionals.add(Optional.empty());
+		listOfOptionals.add(Optional.of("mai"));
+		List<String> filteredList = listOfOptionals.stream()
+				  .flatMap(Optional::stream)//Optional.stream() depuis java 9
+				  .collect(Collectors.toList());
+		System.out.println("filteredList="+filteredList);// [janvier, mars, mai]
 	}
 
 }

@@ -6,7 +6,8 @@ package tp.j15_16_17;
 //auront le droit d'hériter de la classe ou interface actuelle
 //cela ressemble à final class qui interdit carrément tout héritage
 
-//sealed keyword can be used if option "enabled preview features for java 16"
+//sealed keyword can be used if option "enabled preview features for java 16 or java 17"
+//public interface AnimalDomestique  {
 public sealed interface AnimalDomestique permits Chat, Chien {
 	public void sayHello();
 	//...

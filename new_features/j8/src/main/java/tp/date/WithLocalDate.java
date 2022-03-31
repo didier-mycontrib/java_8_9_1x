@@ -7,9 +7,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Period;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.Locale;
 
 public class WithLocalDate {
@@ -21,6 +22,9 @@ public class WithLocalDate {
 		
 		LocalDateTime now = LocalDateTime.now();
         System.out.println("basic/default display of LocalDateTime.now() :" + now);
+        
+        LocalDateTime nowUTC = LocalDateTime.now(ZoneOffset.UTC);
+        System.out.println("nowUTC = " + nowUTC);
         
         Instant instantT =  now.atZone(ZoneId.systemDefault()).toInstant();
         long nbMsSinceFirstJanuary1970GMT = instantT.toEpochMilli();
@@ -58,6 +62,18 @@ public class WithLocalDate {
 	   System.out.println("diffTemps="+diffTemps);//PT25H30M //P1D (periode Temps de 1 25h et 30mn)
 	   Period periodeDate = Period.between(_12fevrier2022_14h.toLocalDate(), _13fevrier2022_15h30.toLocalDate()) ; 
 	   System.out.println("periodeDate:" + periodeDate);//P1D (periode de 1 Day)
+	   
+	   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	   String sDate = "2022-01-20";
+
+	   //convert String to LocalDate
+	   LocalDate localDate = LocalDate.parse(sDate, formatter);
+	   System.out.println("localDate=" + localDate.toString());
+	   if(localDate.isAfter(nowDate)) {
+		   System.out.println("date future");
+	   }else {
+		   System.out.println("date passee");
+	   }
 	  
 	
 	}

@@ -32,6 +32,7 @@ public class MyFileConsumer {
 			Path inputDirectoryPath = Paths.get("./files/input");
 			DirectoryStream<Path> directoryStream = Files.newDirectoryStream(inputDirectoryPath);
 			for(Path filePath : directoryStream) {
+				if(filePath.endsWith(".gitkeep")) continue; //next iteration (ignore special file .gitkeep)
 				System.out.println(filePath);
 				List<String> lignes = Files.readAllLines(filePath, StandardCharsets.UTF_8);
 				fileContent = lignes.stream().collect(Collectors.joining(" "));

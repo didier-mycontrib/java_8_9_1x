@@ -1,29 +1,24 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>tp</groupId>
-  <artifactId>new_features</artifactId>
+  <artifactId>withVectorApi</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <description>nouveautes de java 9 10 et 11 (et aussi 12, 13, 14)</description>
+  
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <!-- version du jdk : 1.6 , 1.7 , 1.8 
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     <!-- version du jdk : 1.6 , 1.7 , 1.8 
          puis 9 , 10 , 11 , ..., 17, ... -->
     <!--  <java.version>11</java.version> -->
      <java.version>17</java.version> 
-     <maven.compiler.release>${java.version}</maven.compiler.release><!-- depuis java 9 --> 
-     <!--   
+        
      <maven.compiler.target>${java.version}</maven.compiler.target>
      <maven.compiler.source>${java.version}</maven.compiler.source>
-     -->
   </properties>
   
-  <modules>
-  <module>j9-10-11</module>
-  <module>j12-13-14</module>
-  <module>j8</module>
-  <module>j15_16_17</module>
-  </modules>
+  <dependencies>
+		 
+  </dependencies>
+
   
   <build>
     <pluginManagement>
@@ -35,11 +30,11 @@
                 <configuration>
                     <release>${java.version}</release>
                     <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <compilerArgs>--enable-preview</compilerArgs>
+                    <target>${java.version}</target> 
+                    <compilerArgs>--enable-preview</compilerArgs>  
                 </configuration>
             </plugin>
-        </plugins>
+          </plugins>  
     </pluginManagement>
 </build>
   
