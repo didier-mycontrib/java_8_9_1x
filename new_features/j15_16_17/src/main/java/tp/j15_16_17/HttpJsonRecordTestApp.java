@@ -33,7 +33,8 @@ public class HttpJsonRecordTestApp {
 		HttpClient client = HttpClient.newHttpClient();
 
 		HttpRequest req =
-		   HttpRequest.newBuilder(URI.create("https://catfact.ninja/fact"))
+		   HttpRequest.newBuilder(URI.create( "https://catfact.ninja/fact"  
+				      /* "http://www.d-defrance.fr/qcm-api/public/qcm/6215ef77a8f36f4037eeef0d"*/))
 		              .header("User-Agent","Java")
 		              .GET()
 		              .build();
@@ -47,8 +48,10 @@ public class HttpJsonRecordTestApp {
 				System.out.println("reponse text:" + resp.body());
 				return resp.body();
 	      		})
+	      //.thenApply((jsonString)->Dto.Qcm.fromJSonString(jsonString))
 	      .thenApply((jsonString)->Dto.CatFact.fromJSonString(jsonString))
 		  .thenAccept((javaCatFact)-> { System.out.println("catFact as java record:" + javaCatFact); });
+	      //.thenAccept((javaQcm)-> { System.out.println("qcm as java record:" + javaQcm); });
         System.out.println("suite synchrone interpreted by " + Thread.currentThread().getName());
 		try {
 			Thread.sleep(2000);//pause ici pour eviter arret complet du programme 

@@ -1,6 +1,7 @@
 package tp.j15_16_17;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -17,6 +18,20 @@ public class Dto {
 				e.printStackTrace();
 			}
 			return catFact;
+		}
+	};
+	
+	public record Qcm(String title,String  visibility) {
+		public static Qcm fromJSonString(String qcmAsJsonString) {
+			Qcm qcm=null;
+			try {
+				jacksonObjectMapper.configure(
+						DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+				qcm = jacksonObjectMapper.readValue(qcmAsJsonString,Qcm.class);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+			return qcm;
 		}
 	};
 	
