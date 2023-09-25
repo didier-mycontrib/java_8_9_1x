@@ -1,5 +1,6 @@
 package tp.avec_lambda;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,5 +59,30 @@ public class AppGestionProduitsAvecStream {
                 //NB: .mapToDouble() preparer l'opération terminale .average()
                 //de type appel de fonction sur un paquet de Double
        System.out.println("moyenne des prix de tous les produits (v2):"+moyennePrixV2);
+      
+       
+       List<String> listeJours= Arrays.asList("lundi" , "mardi" , "mercredi" , "jeudi" ,"vendredi" , "samedi", "dimanche");
+      
+       //transformer cela en "monday;tuesday;....;sunday" 
+       String stringDays = listeJours.stream()
+                           .map(AppGestionProduitsAvecStream::traduireJour)
+                           .collect(Collectors.joining(";"));
+       System.out.println("stringDays="+stringDays);
+       
+	}
+	
+	public static String traduireJour(String jourFrancais) {
+		String dayOfWeek = "?";
+		switch(jourFrancais) {
+			case "lundi": dayOfWeek="monday"; break;
+			case "mardi": dayOfWeek="tuesday"; break;
+			case "mercredi": dayOfWeek="wenesday"; break;
+			case "jeudi": dayOfWeek="thursday"; break;
+			case "vendredi": dayOfWeek="friday"; break;
+			case "samedi": dayOfWeek="saturday"; break;
+			case "dimanche": dayOfWeek="sunday"; break;
+			default: dayOfWeek = "unknown";
+		}
+		return dayOfWeek;
 	}
 }
