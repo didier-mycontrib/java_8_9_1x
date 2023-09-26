@@ -75,7 +75,22 @@ public class WithLocalDate {
 		   System.out.println("date passee");
 	   }
 	  
-	
+	   
+	   LocalDateTime ldtParis = LocalDateTime.now();
+	   System.out.println("maintenant (france)=" + ldtParis);
+	   
+	   Instant instant = Instant.now();
+	   
+	   ZoneId zidParis = ZoneId.of("Europe/Paris");
+	   ZoneOffset zoneOffsetParis = zidParis.getRules().getOffset(instant);
+	   System.out.println(zidParis + " " + zoneOffsetParis );
+	   
+	   ZoneId zidTokyo = ZoneId.of("Asia/Tokyo");
+	   ZoneOffset zoneOffsetTokyo = zidTokyo.getRules().getOffset(instant);
+	   System.out.println(zidTokyo  + " " + zoneOffsetTokyo);
+	   LocalDateTime ldtTokyo = ldtParis.plusSeconds(zoneOffsetTokyo.getTotalSeconds() - zoneOffsetParis.getTotalSeconds());
+	   System.out.println("maintenant à Tokyo="+ldtTokyo);
+	   
 	}
 
 }
