@@ -3,4 +3,3 @@ module tp.module.gui {
 	//NB: exports tp.mod.gui n'exporte pas  tp.mod.gui.impl
 	requires java.desktop;
 }
-

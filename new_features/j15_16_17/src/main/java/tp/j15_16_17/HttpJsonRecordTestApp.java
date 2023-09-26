@@ -5,7 +5,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
 
-import tp.j15_16_17.Dto.CatFact;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class HttpJsonRecordTestApp {
 
@@ -30,7 +32,10 @@ public class HttpJsonRecordTestApp {
 		
 		//3. on affichera finalement les valeurs du DTO/record java construit via ... .toString()
 		
-		HttpClient client = HttpClient.newHttpClient();
+		//HttpClient client = HttpClient.newHttpClient();
+		HttpClient client = HttpClient.newBuilder()
+		    //.proxy(ProxySelector.of(new InetSocketAddress("proxy.xyz.com", 80)))
+		    .build();
 
 		HttpRequest req =
 		   HttpRequest.newBuilder(URI.create( "https://catfact.ninja/fact"  
@@ -48,9 +53,12 @@ public class HttpJsonRecordTestApp {
 				System.out.println("reponse text:" + resp.body());
 				return resp.body();
 	      		})
+		.thenApply((jsonString)->HttpJsonRecordTestApp.convertJsonToCatFact(jsonString))
+		.thenAccept((javaCatFact)-> { System.out.println("catfact as java object:" + javaCatFact.toString()); });
+		
 	      //.thenApply((jsonString)->Dto.Qcm.fromJSonString(jsonString))
-	      .thenApply((jsonString)->Dto.CatFact.fromJSonString(jsonString))
-		  .thenAccept((javaCatFact)-> { System.out.println("catFact as java record:" + javaCatFact); });
+	      //.thenApply((jsonString)->Dto.CatFact.fromJSonString(jsonString))
+		  //.thenAccept((javaCatFact)-> { System.out.println("catFact as java record:" + javaCatFact); });
 	      //.thenAccept((javaQcm)-> { System.out.println("qcm as java record:" + javaQcm); });
         System.out.println("suite synchrone interpreted by " + Thread.currentThread().getName());
 		try {
@@ -60,6 +68,19 @@ public class HttpJsonRecordTestApp {
 			e.printStackTrace();
 		}
 		System.out.println("fin synchrone / interpreted by " + Thread.currentThread().getName());
+	}
+	
+	public static CatFact convertJsonToCatFact(String jsonString) {
+		CatFact res=null;
+		ObjectMapper jacksonObjectMapper = new ObjectMapper();
+		try {
+			res =  jacksonObjectMapper.readValue(jsonString, CatFact.class);
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 }
