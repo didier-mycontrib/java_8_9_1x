@@ -3,6 +3,7 @@ package tp.j15_16_17;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,6 +13,41 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class HttpJsonRecordTestApp {
 
 	public static void main(String[] args) {
+		appelsWS();
+		//testTemporaireEnModePost();
+	}
+	public static void testTemporaireEnModePost() {
+		HttpClient client = HttpClient.newHttpClient();
+		String wsURL = "http://localhost:8080/appliSpringWeb/rest/api-news/news";
+		String dataAsJsonString="""
+				{ "text":"texte qui va bien pour la news" ,
+				   "date" : "2023-09-26" }
+				""";
+		HttpRequest postReq =
+			HttpRequest.newBuilder(URI.create( wsURL))
+				              .setHeader("Content-Type", "application/json")
+				              .POST(BodyPublishers.ofString(dataAsJsonString))
+				              .build();
+		
+		for(int i=0;i<10;i++)
+		 client.sendAsync(postReq, BodyHandlers.ofString())
+	      .thenAccept(resp -> {
+	    		System.out.println("recuperation reponse asynchrone / interpreted by " + Thread.currentThread().getName());
+	    	    System.out.println("reponse status:" + resp.statusCode()); 
+				System.out.println("reponse uri:" + resp.uri().toString()); 
+				System.out.println("reponse type:" + resp.headers().map().get("Content-Type"));
+				System.out.println("reponse text:" + resp.body());
+				System.out.println("execute by :" + Thread.currentThread().getName());
+	      		});
+		try {
+			Thread.sleep(2000);//pause ici pour eviter arret complet du programme 
+			                    // avant la fin des taches de fond asynchrones
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+		
+	public static void appelsWS() {
 		// autre exercice de synthese:
 		
 		//1 via l'api HttpClient , appeler en mode GET 
@@ -43,14 +79,16 @@ public class HttpJsonRecordTestApp {
 		              .header("User-Agent","Java")
 		              .GET()
 		              .build();
-		
-		client.sendAsync(req, BodyHandlers.ofString())
+		//for(int i=0;i<10;i++) //si boucle de lancement de requetes en asynchrone
+		                        //alors execute by :ForkJoinPool.commonPool-worker-1 -2 -3 -8 sur i7 à 8 processeurs
+		 client.sendAsync(req, BodyHandlers.ofString())
 	      .thenApply(resp -> {
 	    		System.out.println("recuperation reponse asynchrone / interpreted by " + Thread.currentThread().getName());
 	    	    System.out.println("reponse status:" + resp.statusCode()); 
 				System.out.println("reponse uri:" + resp.uri().toString()); 
 				System.out.println("reponse type:" + resp.headers().map().get("Content-Type"));
 				System.out.println("reponse text:" + resp.body());
+				System.out.println("execute by :" + Thread.currentThread().getName());
 				return resp.body();
 	      		})
 		.thenApply((jsonString)->HttpJsonRecordTestApp.convertJsonToCatFact(jsonString))
