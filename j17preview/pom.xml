@@ -1,0 +1,77 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>tp</groupId>
+  <artifactId>j17preview</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <description>fonctionnalites en preview en java 17 , stable en java 21</description>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   </properties>
+ 
+    <profiles>
+      <profile>
+        <id>profile-java17-preview</id>
+        
+        <activation>
+			<!-- <activeByDefault>true</activeByDefault> -->
+           <jdk>17</jdk>
+        </activation>
+       <properties>
+	     	<java.version>17</java.version> 
+	     	<maven.compiler.release>${java.version}</maven.compiler.release> 
+	     	<maven.compiler.target>${java.version}</maven.compiler.target>
+	     	<maven.compiler.source>${java.version}</maven.compiler.source>
+   		</properties>
+  
+		  <build>
+		    <pluginManagement>
+		        <plugins>
+		            <plugin>
+		                <groupId>org.apache.maven.plugins</groupId>
+		                <artifactId>maven-compiler-plugin</artifactId>
+		                <version>3.11.0</version>
+		                <configuration>
+		                    <release>${java.version}</release>
+		                    <source>${java.version}</source>
+		                    <target>${java.version}</target>
+		                    <args>--enable-preview</args>
+		                </configuration>
+		            </plugin>
+		        </plugins>
+		    </pluginManagement>
+		</build>
+      </profile>
+      
+           <profile>
+        <id>profile-java21-withoutpreview</id>
+        <activation>
+           <jdk>21</jdk>
+           <activeByDefault>true</activeByDefault>
+        </activation>
+       <properties>
+	     	<java.version>21</java.version> 
+	     	<maven.compiler.release>${java.version}</maven.compiler.release> 
+	     	<maven.compiler.target>${java.version}</maven.compiler.target>
+	     	<maven.compiler.source>${java.version}</maven.compiler.source>
+   		</properties>
+  
+		  <build>
+		    <pluginManagement>
+		        <plugins>
+		            <plugin>
+		                <groupId>org.apache.maven.plugins</groupId>
+		                <artifactId>maven-compiler-plugin</artifactId>
+		                <version>3.11.0</version>
+		                <configuration>
+		                    <release>${java.version}</release>
+		                    <source>${java.version}</source>
+		                    <target>${java.version}</target>
+		                </configuration>
+		            </plugin>
+		        </plugins>
+		    </pluginManagement>
+		</build>
+      </profile>
+    </profiles>
+
+</project>

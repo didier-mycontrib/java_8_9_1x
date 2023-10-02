@@ -91,12 +91,12 @@ public class HttpJsonRecordTestApp {
 				System.out.println("execute by :" + Thread.currentThread().getName());
 				return resp.body();
 	      		})
-		.thenApply((jsonString)->HttpJsonRecordTestApp.convertJsonToCatFact(jsonString))
-		.thenAccept((javaCatFact)-> { System.out.println("catfact as java object:" + javaCatFact.toString()); });
+		//.thenApply((jsonString)->HttpJsonRecordTestApp.convertJsonToCatFact(jsonString))
+		//.thenAccept((javaCatFact)-> { System.out.println("catfact as java object:" + javaCatFact.toString()); });
 		
 	      //.thenApply((jsonString)->Dto.Qcm.fromJSonString(jsonString))
-	      //.thenApply((jsonString)->Dto.CatFact.fromJSonString(jsonString))
-		  //.thenAccept((javaCatFact)-> { System.out.println("catFact as java record:" + javaCatFact); });
+	      .thenApply((jsonString)->Dto.CatFact.fromJSonString(jsonString))
+		  .thenAccept((javaCatFact)-> { System.out.println("catFact as java record:" + javaCatFact); });
 	      //.thenAccept((javaQcm)-> { System.out.println("qcm as java record:" + javaQcm); });
         System.out.println("suite synchrone interpreted by " + Thread.currentThread().getName());
 		try {
@@ -108,11 +108,11 @@ public class HttpJsonRecordTestApp {
 		System.out.println("fin synchrone / interpreted by " + Thread.currentThread().getName());
 	}
 	
-	public static CatFact convertJsonToCatFact(String jsonString) {
-		CatFact res=null;
+	public static CatFactClass convertJsonToCatFact(String jsonString) {
+		CatFactClass res=null;
 		ObjectMapper jacksonObjectMapper = new ObjectMapper();
 		try {
-			res =  jacksonObjectMapper.readValue(jsonString, CatFact.class);
+			res =  jacksonObjectMapper.readValue(jsonString, CatFactClass.class);
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
 		} catch (JsonProcessingException e) {
