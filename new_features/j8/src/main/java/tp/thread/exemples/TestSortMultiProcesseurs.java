@@ -1,6 +1,7 @@
 package tp.thread.exemples;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class TestSortMultiProcesseurs {
 

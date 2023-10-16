@@ -28,7 +28,7 @@ public class AppGestionProduitsAvecStream {
         		 .filter((p)->p.getPrice()>=100)
                  .sorted((p1,p2)->Double.compare(p1.getPrice(), p2.getPrice()))
                  .map((p)-> new Product(p.getId(), p.getLabel().toUpperCase(), p.getPrice() , p.getFeatures()))
-                 //.map((p) -> { p.setLabel(p.getLabel().toUpperCase()); return p; })
+                // .map((p) -> { p.setLabel(p.getLabel().toUpperCase()); return p; })
                  //.collect(Collectors.toList()); //depuis java 8
                  .toList();//ok en java 17
         

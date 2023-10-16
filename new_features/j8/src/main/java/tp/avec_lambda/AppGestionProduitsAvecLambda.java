@@ -19,12 +19,12 @@ public class AppGestionProduitsAvecLambda {
 	
 
 	
-	void textBizzare() {
+	static void textBizzare() {
 		List<Product> listProd = ProductUtil.initSampleProductList();
 		List<Product> subListCheapProductsV2Bis = 
 				ProductUtil.extractSubListByPredicate(listProd,	(new ProductUtil())::isCheapProductNonStatic); 
 				// ProductUtil::isCheapProductNonStatic possible mais pas evident/intuitif
-		System.out.println("subListCheapProductsV2Bis="+ subListCheapProductsV2Bis);
+		System.out.println("subListCheapProductsV2Bis (no static)="+ subListCheapProductsV2Bis);
 	}
 	
 
@@ -40,11 +40,18 @@ public class AppGestionProduitsAvecLambda {
 				//ProductUtil.extractSubListByPredicate(listProd,	(p) -> { return p.getPrice() <= 100 ; });
 		        ProductUtil.extractSubListByPredicate(listProd,	(p) -> p.getPrice() <= 100);
 				//ProductUtil.extractSubListByPredicate(listProd,	p -> p.getPrice() <= 100);
-		System.out.println("subListCheapProducts="+subListCheapProducts);
+		System.out.println("subListCheapProducts (lambda)="+subListCheapProducts);
 		List<Product> subListCheapProductsV2 = 
 				ProductUtil.extractSubListByPredicate(listProd,	ProductUtil::isCheapProduct);
 		
-		System.out.println("subListCheapProductsV2="+subListCheapProductsV2);
+		System.out.println("subListCheapProductsV2 (static function reference)="+subListCheapProductsV2);
+		
+		List<Product> subListCheapProductsV3 = 
+				ProductUtil.extractSubListByPredicate(listProd,	Product::isCheaperThan100);
+		
+		System.out.println("subListCheapProductsV3 (no static function reference)="+subListCheapProductsV3);
+		
+		//textBizzare();
 			
 		List<Product> subListComputerProducts = 
 				ProductUtil.extractSubListByPredicate(listProd,p -> p.getLabel().contains("computer"));

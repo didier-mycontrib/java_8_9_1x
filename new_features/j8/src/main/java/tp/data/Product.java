@@ -20,10 +20,18 @@ public class Product {
 		this.features = features;
 	}
 	
+	public boolean isCheaperThan100() {
+		return this.getPrice()<=100;
+	}
+	
 	
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", label=" + label + ", price=" + price /* + ", features=" + features*/ + "]";
+	}
+	
+	public String toStringEx() {
+		return "Product [id=" + id + ", label=" + label + ", price=" + price  + ", features=" + features + "]";
 	}
 
 

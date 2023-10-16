@@ -22,6 +22,15 @@ public static List<Product> initSampleProductList(){
 	return productList;
 	}
 
+public static List<Product> initBigSampleProductList(Long n){
+	List<Product> productList = new ArrayList<>();
+	for(long i=1;i<=n;i++) {
+		 double price = Math.random()*1000.0;
+	     productList.add(new Product(i,"product_"+i,price,"description_"+i));
+	}
+	return productList;
+	}
+
 public static List<Product> initSampleProductListV2(){
 	List<Product> productList = new ArrayList<>();
 	productList.add(new Product(1L,"printer z1",-156.8,"ink jet"));
@@ -89,7 +98,8 @@ public static boolean isCheapProduct(Product p) {
 }
 
 
-//version pas static moins facile à appliquer 
+//version pas static techniquement possible mais ici pas idéale
+//et moins facile à appliquer (new ProductUtil())::isCheapProductNonStatic
 public boolean isCheapProductNonStatic(Product p) {
 	return (p.getPrice()<=100);
 }
