@@ -4,7 +4,12 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -81,8 +86,11 @@ public class HttpJsonRecordTestApp {
 		              .build();
 		//for(int i=0;i<10;i++) //si boucle de lancement de requetes en asynchrone
 		                        //alors execute by :ForkJoinPool.commonPool-worker-1 -2 -3 -8 sur i7 à 8 processeurs
-		 client.sendAsync(req, BodyHandlers.ofString())
-	      .thenApply(resp -> {
+		CompletableFuture<HttpResponse<String>> cf= 
+		   client.sendAsync(req, BodyHandlers.ofString());
+		
+		CompletableFuture<Void> cf2=
+	    cf.thenApply(resp -> {
 	    		System.out.println("recuperation reponse asynchrone / interpreted by " + Thread.currentThread().getName());
 	    	    System.out.println("reponse status:" + resp.statusCode()); 
 				System.out.println("reponse uri:" + resp.uri().toString()); 
@@ -99,10 +107,20 @@ public class HttpJsonRecordTestApp {
 		  .thenAccept((javaCatFact)-> { System.out.println("catFact as java record:" + javaCatFact); });
 	      //.thenAccept((javaQcm)-> { System.out.println("qcm as java record:" + javaQcm); });
         System.out.println("suite synchrone interpreted by " + Thread.currentThread().getName());
-		try {
+		
+        /*
+        try {
 			Thread.sleep(2000);//pause ici pour eviter arret complet du programme 
 			                    // avant la fin des taches de fond asynchrones
 		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}*/
+        try {
+        	//NB: la classe CompleatableFuture<T> implémente Future<T>
+        	//et l'on peut éventuellement appeler .get() de manière bloquante
+        	//avec ou sans timeout
+			cf2.get(2000, TimeUnit.MILLISECONDS); //attente maximale (timeout)
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		System.out.println("fin synchrone / interpreted by " + Thread.currentThread().getName());

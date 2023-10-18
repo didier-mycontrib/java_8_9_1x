@@ -13,6 +13,9 @@ public class MyApp {
 		//BasicGui basicGui = BasicGui.buildBasicGui(GuiType.TXT_GUI);
 		BasicGui basicGui = BasicGui.buildBasicGui(GuiType.DLG_GUI);
 		
+		//pas acessible car pas exporté dans module gui
+		//BasicGui impl2 = new tp.mod.gui.impl.BasicGuiTxt();
+		
 		String sX= basicGui.input("x=");
         Double x  = Double.parseDouble(sX);
         
