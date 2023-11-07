@@ -14,6 +14,7 @@ public class TestRecordApp {
 		testUsefulRecordV1();
 		testUsefulRecordV2();
 		testUsefulRecordV3();
+		//testJsonWithNullOrEmpty(); //AVEC ERREUR/RESTRICTION A CONNAITRE !!!!
 	}
 	
 	public static void testRecord() {
@@ -117,6 +118,30 @@ public class TestRecordApp {
 		}
 	}
 	
+	public static void testJsonWithNullOrEmpty() {
+		Dto.Rxy rXy = new Dto.Rxy(1, null, Optional.of("ok"));
+		//Dto.Rxy rXy = new Dto.Rxy(1, null, Optional.empty());
+        System.out.println("\nrXy="+rXy.toString());
+		
+		try {
+			ObjectMapper jacksonObjectMapper = new ObjectMapper();
+			String rXyJsonString = jacksonObjectMapper.writeValueAsString(rXy);
+			System.out.println("via jackson, rXyJsonString="+rXyJsonString);
+			//-----
+			Dto.Rxy rXyBis =jacksonObjectMapper.readValue(rXyJsonString,Dto.Rxy.class);
+			System.out.println("via jackson, rXyBis=clone de rXy="+rXyBis.toString());
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+		//ATTENTION: ça ne fonctionne pas bien du tout
+		//bien qu'il existe une extension de jackson-databind sur les types du jdk8 (dont Optional<>)
+		//IL EST TRES DECONSEILLE d'avoir des proprietes de type Optional<T>
+		//The JSR-335 EG felt fairly strongly that Optional 
+		//should not be on any more than needed to support the optional-return idiom only.
+		//Someone suggested maybe even renaming it to OptionalReturn
+
+	}
     
 
 }

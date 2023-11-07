@@ -62,6 +62,16 @@ public class AppExemplesStreams {
 		                                                 // p.translate() : void/ne retourne rien et modifie p 
 		System.out.println("Apres translation(10,5) , liste de points =" + points);
 		
+		testSquareRoots();
+	}
+	
+	public static void testSquareRoots() {
+		Double[] array = buildSampleDoubleArray();
+		Stream.of(array).map((x)->Math.sqrt(x)).forEach(System.out::println);
+	}
+	
+	public static Double[] buildSampleDoubleArray() {
+		return new Double[] { 3.0 , -3.0 , 6.0 , 9.0 , 16.0 , -8.0 };
 	}
 
 }

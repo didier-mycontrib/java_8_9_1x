@@ -1,5 +1,7 @@
 package tp.j15_16_17;
 
+import java.util.Optional;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -110,6 +112,8 @@ public class Dto {
 		}
 	};
 
+	public record Rxy(Integer id, String label , Optional<String> comment) {
+	}
 		
 
 }

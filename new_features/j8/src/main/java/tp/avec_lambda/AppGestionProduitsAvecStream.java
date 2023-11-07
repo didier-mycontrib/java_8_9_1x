@@ -59,6 +59,11 @@ public class AppGestionProduitsAvecStream {
                 //NB: .mapToDouble() preparer l'opération terminale .average()
                 //de type appel de fonction sur un paquet de Double
        System.out.println("moyenne des prix de tous les produits (v2):"+moyennePrixV2);
+       
+       Double moyennePrixV3 = listProd.stream()
+               .collect(Collectors.averagingDouble((Product p)-> p.getPrice()));
+              
+      System.out.println("moyenne des prix de tous les produits (v3):"+moyennePrixV3);
       
        
        List<String> listeJours= Arrays.asList("lundi" , "mardi" , "mercredi" , "jeudi" ,"vendredi" , "samedi", "dimanche");

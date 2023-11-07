@@ -11,16 +11,15 @@ import tp.util.PersonUtil;
 
 //NB: depuis java 8 , le type de retour Optional<T> plutot que T eventuellement null
 //    ne fait qu'expliciter clairement (via le type , sans autre commentaire ou documentation supplementaire)
-//    l'aspect optionel d'une reference vers un autre objet (multiplicite 0..1 en UML)
+//    l'aspect optionel d'une reference vers un objet retourné (proche multiplicite 0..1 en UML)
 
 // au sein de ce Tp , la classe tp.data.Person comportera exceptionnellement
-// public Optional<Address> getOptionalAddress() 
+// public Optional<Address> fetchOptionalAddress() 
 // cohabitant avec public Address getAddress()
 // pour effectuer des comparaisons de styles de code
 
-//dans un veritable projet java >=8 , on aura interet a ne conserver
-//que public Optional<Address> getOptionalAddress() (ou eventuellement public Optional<Address> getAddress())
-//mais ne surtout pas coder public Address getAddress()
+//NB: Optional<T> (au sens OptionalReturn<T>) ne devrait idéalement n'être utilisé 
+//qu'au niveau des valeur de retour (pas au  niveau des attributs/propriétés)!!!!
       
 
 public class AppWithOptional {
@@ -44,26 +43,26 @@ public class AppWithOptional {
 	
     public static void displayWithOptional(Person p) {
     	System.out.println(p);
-		System.out.println("with uppercase email="+ p.getOptionalEmail().orElse("inconnue").toUpperCase());//avec .orElse() pas d'exception
+		System.out.println("with uppercase email="+ p.fetchOptionalEmail().orElse("inconnue").toUpperCase());//avec .orElse() pas d'exception
 		
-		if(p.getOptionalAddress().isPresent()) {
+		if(p.fetchOptionalAddress().isPresent()) {
 			//NB: .get() renvoie une exception si empty(inside null) qui ne peut pas se produire ici
 			//car appel englobe par if(....isPresent())
-			System.out.println("with uppercase address="+ p.getOptionalAddress().get().toString().toUpperCase());
+			System.out.println("with uppercase address="+ p.fetchOptionalAddress().get().toString().toUpperCase());
 		}
 		//Variante:
 		try {
-			System.out.println("with uppercase address="+ p.getOptionalAddress().get().toString().toUpperCase());
+			System.out.println("with uppercase address="+ p.fetchOptionalAddress().get().toString().toUpperCase());
 		}catch(java.util.NoSuchElementException ex) { //NoSuchElementException herite de RuntimeException
 			System.out.println("with no or unknown address. normal exception="+ex.getMessage());
 		}
 		
 		
-		if(p.getOptionalBestFriend().isPresent()) {
-			Person bestFriend = p.getOptionalBestFriend().get();
+		if(p.fetchOptionalBestFriend().isPresent()) {
+			Person bestFriend = p.fetchOptionalBestFriend().get();
 			System.out.println("with best fiend full name="+bestFriend.getFullName() );
-			if(p.getBestFriend().getOptionalAddress().isPresent()) {
-				System.out.println("with uppercase address of best friend="+ bestFriend.getOptionalAddress().get().toString().toUpperCase());
+			if(p.getBestFriend().fetchOptionalAddress().isPresent()) {
+				System.out.println("with uppercase address of best friend="+ bestFriend.fetchOptionalAddress().get().toString().toUpperCase());
 			}
 		}
 		System.out.println("----------------");
@@ -72,8 +71,8 @@ public class AppWithOptional {
     
     public static void displayWithOptionalAndLambda(Person p) {
     	System.out.println(p);
-		System.out.println("with uppercase email="+ p.getOptionalEmail().orElse("iconnue").toUpperCase());
-		String strAdr = p.getOptionalAddress()
+		System.out.println("with uppercase email="+ p.fetchOptionalEmail().orElse("iconnue").toUpperCase());
+		String strAdr = p.fetchOptionalAddress()
 		           .map(a -> a.toString().toUpperCase()) //map() effectue une transformation sur la valeur interne de l'optional si non nulle
 		                                                 //la valeur transformee par la lambda interne à .map() est automatiquement
 		                                                 //re-encapsulee dans un Optional<...> pour pouvoir enchainer l'instruction d'apres
@@ -81,14 +80,14 @@ public class AppWithOptional {
 		           .orElse("INCONNUE");
 		//� terminer ....
         System.out.println("with uppercase address = "+strAdr);
-        String bestFriendFullName = p.getOptionalBestFriend()
+        String bestFriendFullName = p.fetchOptionalBestFriend()
 		           .map((Person bf) -> bf.getFullName())  //retourne une String automatiquement encapsulee dans Optional<...> pour enchainer.
 		           .orElse("inconnu (non renseigne)");
         System.out.println("with best fiend full name="+bestFriendFullName );
 		
         
-        String bestFriendAddress = p.getOptionalBestFriend()
-		           .flatMap(bf -> bf.getOptionalAddress()) //le resultat de la transformation (lambda interne a flatMap())
+        String bestFriendAddress = p.fetchOptionalBestFriend()
+		           .flatMap(bf -> bf.fetchOptionalAddress()) //le resultat de la transformation (lambda interne a flatMap())
 		                                                   //est ici deja de type Optional<Address>
 		                                                   //.map(...) a la place de .flatMap(...) retournerait ici un objet de type
 		                                                   //Optional<Optional<Address>> 

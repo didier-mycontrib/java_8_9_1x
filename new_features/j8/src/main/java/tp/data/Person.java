@@ -59,7 +59,7 @@ public class Person {
 		return address;
 	}
 	
-	public Optional<Address> getOptionalAddress() {
+	public Optional<Address> fetchOptionalAddress() {
 		return Optional.ofNullable(address);
 	}
 	
@@ -71,7 +71,7 @@ public class Person {
 		return email;
 	}
 	
-	public Optional<String> getOptionalEmail() {
+	public Optional<String> fetchOptionalEmail() {
 		return Optional.ofNullable(email);
 	}
 	public void setEmail(String email) {
@@ -83,7 +83,7 @@ public class Person {
 		return bestFriend;
 	}
 	
-	public Optional<Person> getOptionalBestFriend() {
+	public Optional<Person> fetchOptionalBestFriend() {
 		return Optional.ofNullable(bestFriend);
 	}
 
